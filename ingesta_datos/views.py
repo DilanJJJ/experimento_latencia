@@ -1,13 +1,16 @@
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import ArchivoMedico
 
 
 from django.http import JsonResponse
 
+@csrf_exempt
 def subir_archivo(request):
     if request.method == 'POST':
-        # Recibir los parámetros que queremos enviar
+
         nombre = request.POST.get('nombre')
         archivo_id = request.POST.get('archivo_id')
         identificacion = request.POST.get('identificacion')

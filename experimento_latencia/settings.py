@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rdvc-&4%631&#-rkxa#d_jk=is)o#(93egxe%fu$ac7)k=31)(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
