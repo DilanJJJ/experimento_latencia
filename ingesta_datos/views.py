@@ -25,6 +25,10 @@ def subir_archivo(request):
         if not all([nombre, archivo_id, identificacion, sexo, eps, telefono, fecha_reporte, prueba_realizada, resultado]):
             return JsonResponse({'error': 'Faltan parámetros en la solicitud'}, status=400)
 
+        nuevo_archivo = ArchivoMedico.objects.create(
+            archivo_id=archivo_id,
+        )
+
         # Simulamos el almacenamiento de estos parámetros (no se guardará en la base de datos real aquí, pero se pueden guardar si se necesita)
         # En este caso, solo regresamos los datos como respuesta para hacer la prueba
         return JsonResponse({
