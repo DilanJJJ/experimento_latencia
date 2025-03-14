@@ -3,21 +3,41 @@ from django.core.files.storage import FileSystemStorage
 from .models import ArchivoMedico
 
 
+from django.http import JsonResponse
+
 def subir_archivo(request):
     if request.method == 'POST':
-        archivo = request.FILES.get('archivo')
-        if not archivo:
-            return JsonResponse({'error': 'No se recibió archivo'}, status=400)
+        # Recibir los parámetros que queremos enviar
+        nombre = request.POST.get('nombre')
+        archivo_id = request.POST.get('archivo_id')
+        identificacion = request.POST.get('identificacion')
+        sexo = request.POST.get('sexo')
+        eps = request.POST.get('eps')
+        telefono = request.POST.get('telefono')
+        fecha_reporte = request.POST.get('fecha_reporte')
+        prueba_realizada = request.POST.get('prueba_realizada')
+        resultado = request.POST.get('resultado')
 
-        # Guardamos el archivo usando Django FileSystemStorage (sin modelos si no es necesario)
-        fs = FileSystemStorage()
-        archivo_guardado = fs.save(archivo.name, archivo)
-        archivo_url = fs.url(archivo_guardado)
+        # Verificamos si todos los parámetros necesarios están presentes
+        if not all([nombre, archivo_id, identificacion, sexo, eps, telefono, fecha_reporte, prueba_realizada, resultado]):
+            return JsonResponse({'error': 'Faltan parámetros en la solicitud'}, status=400)
 
-        # Puedes almacenar la URL del archivo si es necesario
-        nuevo_archivo = ArchivoMedico.objects.create(archivo=archivo_url)
+        # Simulamos el almacenamiento de estos parámetros (no se guardará en la base de datos real aquí, pero se pueden guardar si se necesita)
+        # En este caso, solo regresamos los datos como respuesta para hacer la prueba
+        return JsonResponse({
+            'mensaje': 'Datos recibidos',
+            'datos': {
+                'nombre': nombre,
+                'archivo_id': archivo_id,
+                'identificacion': identificacion,
+                'sexo': sexo,
+                'eps': eps,
+                'telefono': telefono,
+                'fecha_reporte': fecha_reporte,
+                'prueba_realizada': prueba_realizada,
+                'resultado': resultado
+            }
+        })
 
-        return JsonResponse({'mensaje': 'Archivo recibido', 'archivo_id': nuevo_archivo.id})
     return JsonResponse({'error': 'Método no permitido'}, status=405)
-
 
